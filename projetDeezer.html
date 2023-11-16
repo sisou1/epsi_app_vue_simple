@@ -1,42 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/vue@3"></script>
-        
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>c'est pas un projet deezer</title>
+  <!-- Include Vue.js from a CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
+<body>
 
-
+<div id="app">
+  <h1>Data from API</h1>
+  <ul>
+    <li v-for="item in apiData" :key="item.id">{{ item.name }}</li>
+  </ul>
+</div>
 
 <script>
-    // On utilisera une fausse API venant de ici : https://jsonplaceholder.typicode.com/
-    function fetchApiData() {
-  fetch('https://jsonplaceholder.typicode.com/comments/1')
-    .then(response => response.json())
-    .then(json => {
-      document.getElementById("postID").innerHTML = json.postId;
-      document.getElementById("id").innerHTML = json.id;
-      document.getElementById("name").innerHTML = json.name;
-      document.getElementById("email").innerHTML = json.email;
-      document.getElementById("body").innerHTML = json.body;
-    })
-
-    .catch(error => {
-      console.error('Erreur lors de la requête fetch :', error);
-    });
-
-}
+new Vue({
+  el: '#app',
+  data: {
+    apiData: [],
+  },
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    async fetchData() {
+      try {
+        // Replace 'your-api-endpoint' with the actual API endpoint
+        const response = await axios.get('https://jsonplaceholder.typicode.com/comments/1');
+        this.apiData = response.data;
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    },
+  },
+});
 </script>
 
-<h1> Bonjour, on utilisera l'api placholder API pour tester les réponses</h1>
-<button onclick="fetchApiData()"> bonjour</button>
-<p id="postID"></p>
-<p id="id"></p>
-<p id="name"></p>
-<p id="email"></p>
-<p id="body"></p>
-
-
-
+</body>
 </html>
-
