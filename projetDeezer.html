@@ -4,5 +4,30 @@
         
 </head>
 
-</html>
+
 <script>
+    // On utilisera une fausse API venant de ici : https://jsonplaceholder.typicode.com/
+    function fetchApiData() {
+  // Utilisez la promesse retournée par fetch
+  fetch('https://jsonplaceholder.typicode.com/todos/1')
+    .then(response => response.json())
+    .then(json => {
+      // Mettez à jour le contenu après avoir obtenu les données
+      const data = `userID: ${json.userId}  ID: ${json.id}  Title: ${json.title}  Completed: ${json.completed}`;
+      document.getElementById("json").innerHTML = data;
+    })
+    .catch(error => {
+      // Gérez les erreurs ici
+      console.error('Erreur lors de la requête fetch :', error);
+    });
+
+}
+</script>
+
+<h1> Bonjour, on utilisera l'api placholder API pour tester les réponses</h1>
+<button onclick="fetchApiData()"> bonjour</button>
+<div id="json"></div>
+
+
+
+</html>
