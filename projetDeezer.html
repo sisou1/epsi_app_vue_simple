@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3"></script>
         
 </head>
+
 
 
 <script>
     // On utilisera une fausse API venant de ici : https://jsonplaceholder.typicode.com/
     function fetchApiData() {
-  // Utilisez la promesse retournée par fetch
-  fetch('https://jsonplaceholder.typicode.com/todos/1')
+  fetch('https://jsonplaceholder.typicode.com/comments/1')
     .then(response => response.json())
     .then(json => {
-      // Mettez à jour le contenu après avoir obtenu les données
-      const data = `userID: ${json.userId}  ID: ${json.id}  Title: ${json.title}  Completed: ${json.completed}`;
-      document.getElementById("json").innerHTML = data;
+      document.getElementById("postID").innerHTML = json.postId;
+      document.getElementById("id").innerHTML = json.id;
+      document.getElementById("name").innerHTML = json.name;
+      document.getElementById("email").innerHTML = json.email;
+      document.getElementById("body").innerHTML = json.body;
     })
+
     .catch(error => {
-      // Gérez les erreurs ici
       console.error('Erreur lors de la requête fetch :', error);
     });
 
@@ -26,8 +30,13 @@
 
 <h1> Bonjour, on utilisera l'api placholder API pour tester les réponses</h1>
 <button onclick="fetchApiData()"> bonjour</button>
-<div id="json"></div>
+<p id="postID"></p>
+<p id="id"></p>
+<p id="name"></p>
+<p id="email"></p>
+<p id="body"></p>
 
 
 
 </html>
+
