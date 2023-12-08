@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>c'est pas un projet deezer</title>
-  <!-- Include Vue.js from a CDN -->
+  <title>Affichage de commentaires</title>
+
   <script src="https://unpkg.com/vue@3"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
@@ -16,7 +16,14 @@
 </style>
 <div id="app">
   <h1>Affichage de commentaires</h1>
-  <ul v-for="item in apiData" :key="item.id">
+
+  <label for="name">Choisir un nom :</label>
+  <select v-model="selectedName" @change="fetchData">
+    <option value="">Tous les noms</option>
+    <option v-for="name in uniqueNames" :key="name" :value="name">{{ name }}</option>
+  </select>
+
+  <ul v-for="item in filteredData" :key="item.id">
     <li> Nom : {{ item.name }}</li>
     <li> Email : {{ item.email }}</li>
     <li> Commentaire : {{ item.body }}</li>
@@ -28,7 +35,20 @@ var demo = Vue.createApp({
     data() {
     return {
       apiData: [],
+      selectedName: '',
     };
+  },
+  computed: {
+    uniqueNames() {
+      return [...new Set(this.apiData.map(item => item.name))];
+    },
+    filteredData() {
+      if (!this.selectedName) {
+        return this.apiData;
+      } else {
+        return this.apiData.filter(item => item.name === this.selectedName);
+      }
+    },
   },
   mounted() {
     this.fetchData();
@@ -36,7 +56,6 @@ var demo = Vue.createApp({
   methods: {
     async fetchData() {
       try {
-        // On utilisera ici, l'API placeholder : https://jsonplaceholder.typicode.com/
         const response = await axios.get('https://jsonplaceholder.typicode.com/comments');
         this.apiData = response.data;
       } catch (error) {
